@@ -1,6 +1,7 @@
 #add for spork
 require 'rubygems'
 require 'spork'
+
 #
 Spork.prefork do
 
@@ -12,6 +13,7 @@ Spork.prefork do
   #require 'spec_helper'
   require 'rspec/rails'
   require 'capybara/rails'
+  #require 'features/support/utilities.rb'
   # Add additional requires below this line. Rails is not loaded until this point!
 
   # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -78,6 +80,7 @@ Spork.prefork do
     # https://relishapp.com/rspec/rspec-rails/docs
     config.infer_spec_type_from_file_location!
     config.include Capybara::DSL
+
   end
 end
 

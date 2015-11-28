@@ -1,57 +1,35 @@
 require 'spec_helper'
-
+require 'helpers/utilities_helper'
+include UtilitiesHelper  
+  
 RSpec.describe "GET /static_pages" do
-  let(:base_title) { 'RoR sample' } 
+  
+  subject { page }
+  # let(:base_title) { 'RoR sample' } 
+
   describe "Home page" do
-    it "home content" do
-        visit 'static_pages/home'
-        expect(page).to have_content("Home")
-    end
-
-    it "home title" do
-        visit 'static_pages/home'
-        expect(page).not_to have_title("|Home")
-    end
-
-    it "should home base title" do
-      visit 'static_pages/home'
-      expect(page).to have_title("#{base_title}")
-    end
+    before { visit root_path }
+    it { should have_content("Sample App") }
+    it { should_not have_title("|Home")}
+    it { should have_title(full_title(''))}
   end
-  describe "Help page" do
-    it "help content" do
-      visit 'static_pages/help'
-      expect(page).to have_content("Help")
-    end
 
-    it "help title" do
-      visit 'static_pages/help'
-      expect(page).to have_title("#{base_title}|Help")
-    end
+  describe "Help page" do
+    before { visit help_path  }
+    it { should have_content("Help")}
+    it { should have_title( full_title("Help") ) }
   end
 
   describe "About page" do
-    it "about us content" do
-      visit 'static_pages/about'
-      expect(page).to have_content("About Us")
-    end
-
-    it "about us title" do
-      visit 'static_pages/about'
-      expect(page).to have_title("#{base_title}|About us")
-    end
+    before { visit about_path }
+    it { should have_content("About Us")}
+    it { should have_title( full_title("About us") )}
   end
 
   describe "Contact page" do
-    it "contact content" do
-      visit 'static_pages/contact'
-      expect(page).to have_content("Contact")
-    end
-
-    it "contact title" do
-      visit 'static_pages/contact'
-      expect(page).to have_title("#{base_title}|Contact")
-    end
+    before { visit contact_path }
+    it { should have_content("Contact")}
+    it { should have_title( full_title("Contact") )}
   end
   
 end
