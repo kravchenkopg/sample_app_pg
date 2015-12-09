@@ -39,6 +39,21 @@ RSpec.describe User, type: :model do
       it { should_not be_valid }
     end
 
+    describe "email with mixed case" do
+      let(:mixed_case_email){ "EMAIL@mail.ru" }  
+      before do
+        @user.email = mixed_case_email
+        @user.save 
+      end
+       
+      it "should be saved as all liwer-case" do  
+       
+        #expect(User.all.count).to eq 1
+        #expect(@user).to  be   
+        expect(@user.reload.email).to eq mixed_case_email.downcase
+      end
+    end
+
     describe "when email format is invalid" do
       address = %w[user@foo user_at.org example.user@foo.
                     foo@bar_baz.com foo@bar+baz.com]
@@ -61,7 +76,7 @@ RSpec.describe User, type: :model do
       end               
     end
 
-  end
+  end  
 
   describe "when password is not present" do
     before do
@@ -79,18 +94,20 @@ RSpec.describe User, type: :model do
     it { should_not be_valid}
   end
 
+
+
   describe "return value authenticate method" do
     before do
       @user = User.new(name:"Pg",email:"pg@gmail.com",
                        password: "foobar", password_confirmation: "foobar")
       @user.save
-    end
-    
+    end    
     let(:found_user) { User.find_by(email: @user.email)}
 
     describe "with valid password" do       
       it "valid password" do
-        expect(@user).to eq(found_user.authenticate(@user.password))       
+        expect(@user).to eq(found_user.authenticate(@user.password)) 
+        #expect(User.all.count).to eq 1      
       end
     end
 
