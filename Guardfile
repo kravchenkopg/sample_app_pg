@@ -40,19 +40,28 @@ guard :rspec, all_after_pass: false, cmd: "bundle exec rspec"  do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
 #
+
   watch('spec/spec_helper.rb')                        { "spec" }
+  watch(%r{^app/.+_helper.rb$})                       { "spec" }
   watch('config/routes.rb')                           { "spec/routing" }
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r{^app/(.*)(\.erb|\.haml|\.slim)$})          { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
+#  watch(%r{^app/(.*)(\.erb|\.haml|\.slim)$})          { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
   #add
-  watch(%r{^app/views/layouts/application.html.erb/$}){ |m| "spec/features/" }
+  watch(%r{^app/views/layouts/.+\.html\.erb$})        { |m| ["spec/features/","spec/requests"] }
   #watch(%r{^app/views/layouts/application.html.erb/$}){ |m| "spec/features/.*_spec.rb" }
-  #watch(%r{^app/views/layouts/.*.html.erb/$})         { |m| "spec/features/.*_spec.rb" }
-  watch(%r{^app/views/(.*)/$})                        { |m| ["spec/features/#{m[1]}_spec.rb","spec/controllers/#{m[1]}_spec.rb"] }
-  watch(%r{^lib/(.+)\.rb$})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/features/#{m[1]}_spec.rb","spec/controllers/#{m[1]}_spec.rb","spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
+  #watch(%r{^app/views/layouts/.*\.html.erb/$})         { |m| ["spec/features/.*_spec.rb","spec/reguests/.*_spec.rb"] }
+#  watch(%r{^app/views/(.*)/$})                        { |m| ["spec/features/#{m[1]}_spec.rb",
+#                                                            "spec/controllers/#{m[1]}_spec.rb"] }
+#  watch(%r{^lib/(.+)\.rb$})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
+  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/requests/#{m[1]}_spec.rb",
+                                                             "spec/features/#{m[1]}_spec.rb",
+                                                             "spec/controllers/#{m[1]}_spec.rb",
+                                                             "spec/routing/#{m[1]}_routing_spec.rb",
+                                                             "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
+#  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/features/#{m[1]}_pages_spec.rb",
+    #                                                         "spec/controllers/#{m[1]}_pages_spec.rb"] }
 
   # Feel free to open issues for suggestions and improvements
 

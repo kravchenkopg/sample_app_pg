@@ -4,15 +4,22 @@ RSpec.describe User, type: :model do
   describe User do
     before { @user = User.new(name:"Pg",email:"pg@mail.ru",
                               password: "foobar", password_confirmation: "foobar")}
-    #before { @user = User.new()}
+    #before { @user = User.new() }
     subject { @user }
-    it { should respond_to(:name)}
-    it { should respond_to(:email)}
-    it { should respond_to(:password_digest)}
-    it { should respond_to(:password)}
-    it { should respond_to(:password_confirmation)}
-    it { should respond_to(:authenticate)}
+    it { should respond_to(:name) }
+    it { should respond_to(:email) }
+    it { should respond_to(:password_digest) }
+    it { should respond_to(:password) }
+    it { should respond_to(:password_confirmation) }
+    it { should respond_to(:authenticate) }
+    it { should respond_to(:remember_token) }
     it { should be_valid }
+
+    describe "remember token" do
+      before { @user.save }
+      it { expect(@user.remember_token).not_to be_blank }
+      #its(:remember_token){ should_not be_blank }
+    end
 
     describe "when name is not present" do
       before { @user.name = "" }

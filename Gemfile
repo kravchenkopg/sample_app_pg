@@ -56,6 +56,8 @@ end
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'cucumber-rails' , :require => false
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 
 
